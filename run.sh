@@ -1,29 +1,35 @@
 #!/bin/bash
-ps aux | grep -E 'bin\/geth|_\/beacon-chain|_\/validator' | awk '{print $2}'  | xargs kill -9 $1
+ps aux | grep -E 'bin\/geth|_\/beacon-chain|_\/validator' | awk '{print $2}'  | xargs kill -9
 cd prysm
 bazel build //cmd/prysmctl
 bazel build //cmd/beacon-chain
 bazel build //cmd/validator
 cd ../
-CHAINID=1331
-PATH_TO_CONFIG=$PWD
-PATH_TO_DATADIR=$PATH_TO_CONFIG/prysm-data
-rm -rf $PATH_TO_DATADIR $PATH_TO_GETH
-mkdir $PATH_TO_DATADIR
+CHAINID=1333
 
-cd $PATH_TO_CONFIG/prysm
+if [ -n "$1" ]; then 
+	SUBDIR=/$1 
+else
+	SUBDIR=/v3 
+fi
+
+ROOT=$PWD
+PATH_TO_CONFIG=$ROOT$SUBDIR
+PATH_TO_DATADIR=$ROOT/prysm-data
+rm -rf $PATH_TO_DATADIR
+mkdir $PATH_TO_DATADIR
+PEER=$(cat $PATH_TO_CONFIG/bootnode.txt)
+cd $ROOT/prysm
 bazel run //cmd/beacon-chain -- \
     --datadir=$PATH_TO_DATADIR \
+	--interop-genesis-state=$PATH_TO_CONFIG/genesis.ssz \
+	--chain-config-file=$PATH_TO_CONFIG/config.yml \
     --execution-endpoint="http://localhost:8552" \
 	--min-sync-peers=0 \
 	--force-clear-db \
-	--interop-genesis-state=$PATH_TO_CONFIG/genesis.ssz \
-	--interop-eth1data-votes \
 	--bootstrap-node= \
-	--chain-config-file=$PATH_TO_CONFIG/config.yml \
-	--chain-id=$CHAINID \
+	--interop-eth1data-votes \
 	--accept-terms-of-use \
-    --bootstrap-node="$PEER" \
-	# --jwt-secret=$PATH_TO_CONFIG/jwtsecret.txt \
-	# --suggested-fee-recipient=0x123463a4b065722e99115d6c222f267d9cabb524 \
-	--verbosity debug > $PATH_TO_CONFIG/beacon.log 2>&1 & 
+    --bootstrap-node "$PEER" \
+	--jwt-secret=$ROOT/jwtsecret.txt \
+	--verbosity debug

@@ -1,3 +1,8 @@
 [submodule "prysm"]
 	path = prysm
-	url = ./prysm
+	url = https://github.com/Inphi/prysm
+	branch = eip-4844
+[submodule "nethermind"]
+	path = nethermind
+	url = https://github.com/NethermindEth/nethermind.git
+	branch = debug-eip-4844

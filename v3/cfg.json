@@ -1,0 +1,34 @@
+{
+
+    "Init": {
+        "ChainSpecPath": "/home/dev/interop-4844-lite-devnetv3/v3/neth.json",
+        "GenesisHash": "0x8a662ec4f2a9bf4086a9a0b90a39f5ffcb57e50e1ed58f8497da41cfca32ecd7",
+        "LogDirectory" : "/home/dev/interop-4844-lite-devnetv3/v3/logs"
+    },
+    "Discovery": {
+        "Bootnodes": "enode://fdefa8b36717bd246ce338e952a3b949e608158d06c74c8b9e207439f70bfc63da27b7a4c4161a14722f7d4a256fda9c93a6dd5c26624b6a523dca2cd852ad97@34.121.33.53:30303"
+    },
+    "TxPool": {
+        "Size": 1024
+    },
+    "Sync": {
+        "FastSync": false,
+        "SnapSync": false,
+        "FastBlocks": false,
+        "FastSyncCatchUpHeightDelta": "128"
+    },
+    "JsonRpc": {
+        "Enabled": true,
+        "EnabledModules": [ "Admin", "Eth", "Subscribe", "Engine", "Trace", "TxPool", "Web3", "Personal", "Proof", "Net", "Parity", "Health", "Debug" ],
+        "Host": "0.0.0.0",
+        "UnsecureDevNoRpcAuthentication": true,
+        "Port": 8547,
+        "AdditionalRpcUrls": [
+            "http://localhost:8552|http;ws|net;eth;subscribe;engine;web3;client;health"
+        ]
+    },
+    "Merge": {
+        "Enabled": true,
+        "SecondsPerSlot": 12
+    }
+}
