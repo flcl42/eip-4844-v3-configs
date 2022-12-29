@@ -1,1 +1,0 @@
-ps aux | grep -E 'bin\/geth|_\/beacon-chain|_\/validator' | awk '{print $2}'  | xargs kill -9 $1
