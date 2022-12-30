@@ -26,6 +26,8 @@ NETHERMIND_DATA_DIR=$ROOT/nethermind-data
 rm -rf $NETHERMIND_DATA_DIR
 mkdir $NETHERMIND_DATA_DIR
 
+mkdir -p $PATH_TO_CONFIG/logs
+
 CHAINID=$(cat $PATH_TO_CONFIG/prysm/config.yml | grep DEPOSIT_CHAIN_ID | sed 's/DEPOSIT_CHAIN_ID: //')
 PEER=$(cat $PATH_TO_CONFIG/prysm/bootnode.txt)
 
@@ -50,7 +52,7 @@ $ROOT/nethermind/src/Nethermind/Nethermind.Runner/bin/Debug/net6.0/Nethermind.Ru
 	-c $PATH_TO_CONFIG/nethermind/config.json \
 	--Init.ChainSpecPath $PATH_TO_CONFIG/nethermind/genesis.json \
 	-dd $NETHERMIND_DATA_DIR \
-    --Init.LogDirectory $PATH_TO_CONFIG/nethermind/logs \
+    --Init.LogDirectory $PATH_TO_CONFIG/logs \
 	--log TRACE > /dev/null 2>&1 &
 
 echo "Running now"
