@@ -1,7 +1,9 @@
 prysm-data
 nethermind-data
+geth-data
 *.log
 logs/
+logs-*/
 *-ignore
 investigate.md
 .vscode

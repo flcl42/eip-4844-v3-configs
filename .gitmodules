@@ -5,4 +5,8 @@
 [submodule "nethermind"]
 	path = nethermind
 	url = https://github.com/NethermindEth/nethermind.git
-	branch = debug-eip-4844
+	branch = feature/eip-4844
+[submodule "geth"]
+	path = geth
+	url = https://github.com/mdehoog/go-ethereum.git
+	branch = eip-4844
