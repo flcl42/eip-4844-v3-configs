@@ -1,6 +1,8 @@
 prysm-data
 nethermind-data
 geth-data
+lodestar-data
+lighthouse-data
 *.log
 logs/
 logs-*/

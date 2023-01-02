@@ -34,7 +34,6 @@ mkdir -p $PATH_TO_CONFIG/logs
 CHAINID=$(cat $PATH_TO_CONFIG/prysm/config.yml | grep DEPOSIT_CHAIN_ID | sed 's/DEPOSIT_CHAIN_ID: //')
 PEER=$(cat $PATH_TO_CONFIG/prysm/bootnode.txt)
 EXECUTION_NODE_URL=http://localhost:8552
-INTEROP_GENESIS_TIME=
 # Run 
 
 
@@ -42,11 +41,10 @@ $NETHERMIND_PATH/src/Nethermind/Nethermind.Runner/bin/Debug/net6.0/Nethermind.Ru
 	-c $PATH_TO_CONFIG/nethermind/config.json \
 	--Init.ChainSpecPath $PATH_TO_CONFIG/nethermind/genesis.json \
 	-dd $NETHERMIND_DATA_DIR \
-    --Init.LogDirectory $PATH_TO_CONFIG/logs \
+  --Init.LogDirectory $PATH_TO_CONFIG/logs \
 	--log TRACE > /dev/null 2>&1 &
 
-# https://chainsafe.notion.site/chainsafe/Lodestar-flags-02406e481f664d84adb56c2c348e49aa
-# --genesisTime "$INTEROP_GENESIS_TIME" \
+curl --retry 10 --retry-connrefused --retry-delay 0 $EXECUTION_NODE_URL
 
 docker run --rm --network host \
   -v $PATH_TO_CONFIG/prysm:/config \
@@ -61,6 +59,6 @@ docker run --rm --network host \
   --execution.urls $EXECUTION_NODE_URL \
   --network.connectToDiscv5Bootnodes \
   --logLevel debug \
-  --bootnodes $PEER > $PATH_TO_CONFIG/logs/lodestar /dev/null 2>&1 &
+  --bootnodes $PEER > $PATH_TO_CONFIG/logs/lodestar.log 2>&1 &
 
 #echo "Running now"
