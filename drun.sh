@@ -52,7 +52,7 @@ docker run --rm --network host \
   -v $PATH_TO_CONFIG/prysm:/config \
   -v $LODESTAR_DATA_DIR:/data \
   -v $ROOT/jwtsecret.txt:/data/jwtsecret \
-  g11tech/lodestar:eip4844-devnet32 \
+  g11tech/lodestar:eip4844-devnet3 \
   beacon \
   --paramsFile /config/config.yml \
   --genesisStateFile /config/genesis.ssz \
