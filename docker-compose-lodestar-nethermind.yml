@@ -1,0 +1,32 @@
+version: '3'
+services:
+  execution-node:
+    build:
+      context: ./nethermind
+      dockerfile: ../Dockerfile.nethermind
+    ports:
+      - "8545:8545"
+      - "30303:30303"
+    volumes:
+      - type: bind
+        source: ./$DEVNET/nethermind/genesis.json
+        target: /genesis.json
+      - type: bind
+        source: ./$DEVNET/nethermind/config.cfg
+        target: /nethermind/configs/mainnet.cfg
+  consensus-node:
+    depends_on:
+      - execution-node
+    build:
+      context: ./lodestar
+    environment:
+      EXECUTION_NODE_URL: http://execution-node:8552
+      VERBOSITY: debug
+    command: --network.connectToDiscv5Bootnodes --bootnodes $BOOTNODE
+    entrypoint: run_beacon_node_peer.sh
+    ports:
+      - '3505:3500'
+      - '13000:13000'
+    volumes:
+      - "./$DEVNET/prysm/genesis.ssz:/config/genesis.ssz"
+      - "./$DEVNET/prysm/config.yml:/config/config.yml"
