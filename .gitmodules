@@ -10,3 +10,7 @@
 	path = geth
 	url = https://github.com/mdehoog/go-ethereum.git
 	branch = eip-4844
+[submodule "lighthouse"]
+	path = lighthouse
+	url = https://github.com/sigp/lighthouse.git
+	branch = eip4844
